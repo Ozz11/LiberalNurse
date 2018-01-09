@@ -8,8 +8,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Route principale
 app.get('/', (req, res) => {
-	
-})
+
+});
 
 // Route pour afficher tous les patients
 app.get('/patients', (req, res) => {
