@@ -1,8 +1,9 @@
 const express = require('express');
-
 const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
+const fs = require('fs');
+var hash = require('object-hash');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -35,3 +36,10 @@ app.listen(1345, () => {
  	console.log('Server running on port 1345...');
 });
 
+ajouter = function(nom, prenom){
+	var newInfirmier = {
+		table: []
+	 };
+
+	 newInfirmier.table.push({Id: hash(prenom), Nom: nom, Prenom: prenom });
+}
