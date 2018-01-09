@@ -1,0 +1,26 @@
+{
+  "name": "liberalnurse",
+  "version": "1.0.0",
+  "description": "NodeJS App to manage some patient",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ozz11/LiberalNurse.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ozz11/LiberalNurse/issues"
+  },
+  "homepage": "https://github.com/Ozz11/LiberalNurse#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2"
+  }
+}
