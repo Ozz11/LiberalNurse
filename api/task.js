@@ -76,8 +76,8 @@ displayPatient = function(idPatient){
 exports.ajouterIfNot = ajouterIfNot;
 exports.ajouterIfYes = ajouterIfYes;
 exports.deleteP = deleteP;
-
-
+exports.loadScript = loadScript;
+exports.displayPatient = displayPatient;
 
 
 
