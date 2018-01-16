@@ -73,11 +73,45 @@ displayPatient = function(idPatient){
 	res.sendFile(path.join(`${__dirname}/test.json/:idPatient`));
 }
 
+function MailPatients()
+{
+	var transporter = nodemailer.createTransport({
+  		service: 'Gmail',
+  		auth: 
+  		{
+    		user: 'dadalemaure@gmail.com', //a changer
+    		pass: '23011995' // a changer
+  		}
+	});
+
+//objet trop grand dans une fonction, c’est pourquoi j’ai préféré passer par une variable intermédiaire.
+
+	var mailOptions = 
+	{
+  		from: mail.name+' <'+ mail.sender +'>',
+  		to: 'robiclement@hotmail.com',
+  		subject: 'Test de mon appli javascript',
+  		text: mail.message,
+  		html: mail.message,
+  		attachments: [
+						{
+						  filePath: './nomFichier.ext'
+						},
+					]
+	};
+
+	transporter.sendMail(mailOptions, 
+		function(err, response){
+	  !!err ? console.error(err) : res.end();
+	});
+}
+
 exports.ajouterIfNot = ajouterIfNot;
 exports.ajouterIfYes = ajouterIfYes;
 exports.deleteP = deleteP;
 exports.loadScript = loadScript;
 exports.displayPatient = displayPatient;
+exports.MailPatients = MailPatients;
 
 
 
