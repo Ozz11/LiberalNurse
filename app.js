@@ -55,7 +55,3 @@ app.put('/patient/:id', (req, res) => {
 app.listen(1345, () => {
  	console.log('Server running on port 1345...');
 });
-
-function displayPatient(idPatient){
-	res.sendFile(path.join(`${__dirname}/test.json/:idPatient`));
-}
