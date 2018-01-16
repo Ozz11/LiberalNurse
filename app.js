@@ -36,5 +36,5 @@ app.listen(1345, () => {
 });
 
 function displayPatient(idPatient){
-
+	res.sendFile(path.join(`${__dirname}/test.json/:idPatient`));
 }
