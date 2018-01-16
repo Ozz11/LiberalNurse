@@ -12,7 +12,8 @@ app.use(bodyParser.json({ extended: false }));
 
 // Route principale
 app.get('/', (req, res) => {
-
+	task.tempDataExist();
+	res.redirect('/patients');
 });
 
 // Route pour afficher tous les patients
@@ -22,7 +23,8 @@ app.get('/patients', (req, res) => {
 
 // Route pour afficher un patient spécifique
 app.get('/patient/:id', (req, res) => {
-	displayPatient(id);
+	task.displayPatient(req.params.id);
+	res.sendFile(path.join(`${__dirname}/dataPatientDisplay.json`));
 });
 var cp = 0;
 // Route pour ajouter un patient
