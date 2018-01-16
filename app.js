@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 var hash = require('object-hash');
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({ extended: false }));
 
 // Route principale
 app.get('/', (req, res) => {
@@ -26,7 +26,7 @@ var cp = 0;
 app.post('/patient', (req, res) => {
 	var nom = req.body.name;
 	var prenom = req.body.lastname;
-	console.log(req.body.name);
+	console.log("req", req.body);
 	if (cp == 0 ) {
 		ajouterIfNot(nom, prenom);
 		cp++;
@@ -38,7 +38,9 @@ app.post('/patient', (req, res) => {
  	res.redirect('/patients');
 });
 
-app.delete('/patient', (req,res) => {
+app.delete('/patient/delete/:id', (req,res) => {
+	deleteP(req.params.id);
+	res.redirect('/patients');
 	
 });
 
@@ -84,7 +86,30 @@ ajouterIfYes = function(){
 		} else {
 		Infirmier = JSON.parse(data); 
 		Infirmier.table.push({id: id_y, nom:"albert", prenom:"la grenouille"}); 
-		json = JSON.stringify(Infirmier); 
+		var json = JSON.stringify(Infirmier); 
 		fs.writeFile('test.json', json, 'utf8'); 
 	}});
+
+	
 } 
+
+deleteP = function(index){
+	var indexADelete;
+	fs.readFile('test.json', 'utf8', function readFileCallback(err, data){
+		if (err){
+			console.log(err);
+		} else {
+			Infirmier = JSON.parse(data); 		
+			for (var i = 0; i < Infirmier.table.length; i++) {				
+				 if (index === Infirmier.table[i].id) {
+					indexADelete = i;	
+				 }				
+			}
+			console.log("index",indexADelete);
+			 Infirmier.table.splice(indexADelete,1);
+			 console.log("success delete");
+			 console.log("table", Infirmier.table);
+			var json = JSON.stringify(Infirmier); 
+			fs.writeFile('test.json', json, 'utf8');
+		}});
+}
