@@ -22,7 +22,7 @@ app.get('/patients', (req, res) => {
 
 // Route pour afficher un patient spécifique
 app.get('/patient/:id', (req, res) => {
-	
+	displayPatient(id);
 });
 var cp = 0;
 // Route pour ajouter un patient
@@ -55,9 +55,3 @@ app.put('/patient/:id', (req, res) => {
 app.listen(1345, () => {
  	console.log('Server running on port 1345...');
 });
-
-
-
-
-
-
