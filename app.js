@@ -1,4 +1,5 @@
 const express = require('express');
+
 const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -36,7 +37,7 @@ app.post('/patient', (req, res) => {
 		task.ajouterIfYes();
 		cp++;
 	}
-	
+	//rrvfdfdsdsfrsegrdsgress
  	res.redirect('/patients');
 });
 
