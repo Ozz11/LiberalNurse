@@ -21,7 +21,7 @@ app.get('/patients', (req, res) => {
 
 // Route pour afficher un patient spécifique
 app.get('/patient/:id', (req, res) => {
-
+	
 });
 var cp = 0;
 // Route pour ajouter un patient
