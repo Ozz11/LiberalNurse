@@ -38,6 +38,10 @@ app.post('/patient', (req, res) => {
  	res.redirect('/patients');
 });
 
+app.delete('/patient', (req,res) => {
+	
+});
+
 // Route pour modifier un patient
 app.put('/patient/:id', (req, res) => {
 
