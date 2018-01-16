@@ -3,7 +3,9 @@ const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
 const fs = require('fs');
+const task = require('task');
 var hash = require('object-hash');
+
 
 app.use(bodyParser.json({ extended: false }));
 
@@ -26,12 +28,12 @@ var cp = 0;
 app.post('/patient', (req, res) => {
 	var nom = req.body.name;
 	var prenom = req.body.lastname;
-	console.log("req", req.body);
+	
 	if (cp == 0 ) {
-		ajouterIfNot(nom, prenom);
+		task.ajouterIfNot(nom, prenom);
 		cp++;
 	}else{
-		ajouterIfYes();
+		task.ajouterIfYes();
 		cp++;
 	}
 	
@@ -39,7 +41,7 @@ app.post('/patient', (req, res) => {
 });
 
 app.delete('/patient/delete/:id', (req,res) => {
-	deleteP(req.params.id);
+	task.deleteP(req.params.id);
 	res.redirect('/patients');
 	
 });
@@ -53,63 +55,8 @@ app.listen(1345, () => {
  	console.log('Server running on port 1345...');
 });
 
-var ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-var ID_LENGTH = 8;
 
-var generate = function() {
-  var rtn = '';
-  for (var i = 0; i < ID_LENGTH; i++) {
-    rtn += ALPHABET.charAt(Math.floor(Math.random() * ALPHABET.length));
-  }
-  return rtn;
-}
 
-var Infirmier = {
-	table: []
- };
 
-ajouterIfNot = function(Nom, Prenom){
-	var id_t = generate();
-	Infirmier.table.push({id: id_t, nom:Nom, prenom: Prenom});
-	var json = JSON.stringify(Infirmier);
-	
-	console.log(id_t);
-	fs.writeFileSync("test.json", json , "UTF-8");
-}
 
-ajouterIfYes = function(){
-	var id_y = generate();
-	fs.readFile('test.json', 'utf8', function readFileCallback(err, data){
-		if (err){
-			console.log(err);
-		} else {
-		Infirmier = JSON.parse(data); 
-		Infirmier.table.push({id: id_y, nom:"albert", prenom:"la grenouille"}); 
-		var json = JSON.stringify(Infirmier); 
-		fs.writeFile('test.json', json, 'utf8'); 
-	}});
-
-	
-} 
-
-deleteP = function(index){
-	var indexADelete;
-	fs.readFile('test.json', 'utf8', function readFileCallback(err, data){
-		if (err){
-			console.log(err);
-		} else {
-			Infirmier = JSON.parse(data); 		
-			for (var i = 0; i < Infirmier.table.length; i++) {				
-				 if (index === Infirmier.table[i].id) {
-					indexADelete = i;	
-				 }				
-			}
-			console.log("index",indexADelete);
-			 Infirmier.table.splice(indexADelete,1);
-			 console.log("success delete");
-			 console.log("table", Infirmier.table);
-			var json = JSON.stringify(Infirmier); 
-			fs.writeFile('test.json', json, 'utf8');
-		}});
-}
