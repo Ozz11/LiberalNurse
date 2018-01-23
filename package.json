@@ -22,8 +22,8 @@
   "dependencies": {
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
-    "nodemailer": "^4.4.1",
     "gulp-util": "^3.0.8",
+    "nodemailer": "^4.4.1",
     "object-hash": "^1.2.0"
   }
 }

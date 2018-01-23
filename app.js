@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 const task = require('./api/task');
 var hash = require('object-hash');
+var nodemailer = require('nodemailer');
 
 
 app.use(bodyParser.json({ extended: false }));
@@ -26,6 +27,11 @@ app.get('/patient/:id', (req, res) => {
 	task.displayPatient(req.params.id);
 	res.sendFile(path.join(`${__dirname}/dataPatientDisplay.json`));
 });
+
+app.post('/patient/mail', (req, res) => {
+	task.MailPatients();
+});
+
 var cp = 0;
 // Route pour ajouter un patient
 app.post('/patient', (req, res) => {

@@ -108,9 +108,9 @@ displayPatient = function(idPatient){
 	});
 }
 
-function MailPatients()
+function MailPatients()//MailExpediteur, MdpExpediteur
 {
-	var transporter = nodemailer.createTransport({
+	var transporter = nodemailer.createTransport("SMTP", {
   		service: 'Gmail',
   		auth: 
   		{
@@ -124,20 +124,20 @@ function MailPatients()
 	var mailOptions = 
 	{
   		from: mail.name+' <'+ mail.sender +'>',
-  		to: 'robiclement@hotmail.com',
+  		to: 'damien.maure@ynov.com',
   		subject: 'Test de mon appli javascript',
-  		text: mail.message,
-  		html: mail.message,
+  		//text: mail.message,
+  		//html: mail.message,
   		attachments: [
 						{
-						  filePath: './nomFichier.ext'
+						  filePath: './test.txt'
 						},
 					]
 	};
 
-	transporter.sendMail(mailOptions, 
-		function(err, response){
+	smtpTransporter.sendMail(mailOptions, function(err, response){
 	  !!err ? console.error(err) : res.end();
+	  smtpTransporter.close();
 	});
 }
 
