@@ -33,6 +33,7 @@ app.post('/patient/mail', (req, res) => {
 });
 
 var cp = 0;
+
 // Route pour ajouter un patient
 app.post('/patient', (req, res) => {
 	var nom = req.body.name;
@@ -57,7 +58,10 @@ app.delete('/patient/delete/:id', (req,res) => {
 
 // Route pour modifier un patient
 app.put('/patient/:id', (req, res) => {
-
+	var id = req.params.id;
+  	var obj = req.body;
+  	task.modifyPatient(id, obj);
+  	res.redirect('/patients');
 });
 
 app.listen(1345, () => {

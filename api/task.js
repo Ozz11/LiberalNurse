@@ -19,7 +19,7 @@ var Infirmier = {
       rtn += ALPHABET.charAt(Math.floor(Math.random() * ALPHABET.length));
     }
     return rtn;
-  }
+}
 
 
 deleteP = function(index){
@@ -139,6 +139,22 @@ function MailPatients()//MailExpediteur, MdpExpediteur
 	  !!err ? console.error(err) : res.end();
 	  smtpTransporter.close();
 	});
+
+modifyPatient = function(id, dataToEdit) {
+
+	//la fonction map va effectuer une boucle sur l'objet et rendre un objet final avec les modifications table par table
+	const table = jsonObj.table.map((obj) => {
+	  console.log(obj);
+	  if (obj.id === id) {
+		return Object.assign(obj, dataToEdit);
+	  }
+	  return obj;
+	});
+  
+	jsonObj.table = table;
+	var myJSONString = JSON.stringify(jsonObj);
+	console.log("mapped :", myJSONString);
+	fs.writeFile('test.json', myJSONString, 'utf8');
 }
 
 exports.ajouterIfNot = ajouterIfNot;
@@ -148,3 +164,5 @@ exports.loadScript = loadScript;
 exports.displayPatient = displayPatient;
 exports.MailPatients = MailPatients;
 exports.tempDataExist = tempDataExist;
+exports.tempDataExist = tempDataExist;
+exports.modifyPatient = modifyPatient;
