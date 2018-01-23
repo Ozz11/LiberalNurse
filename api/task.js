@@ -110,8 +110,24 @@ displayPatient = function(idPatient){
 	});
 }
 
+covertJsonToPDF = function(){
+	fs.readFile('dataPatientDisplay.json', 'utf8', function readFileCallback(err, data){
+		if (err){
+			console.log(gutil.colors.red(err));
+		} else {
+			Patient = JSON.parse(data);
+			for (var i = 0; i < Patient.table.length; i++) {
+				var nomPdf = Patient.table[i]._nomPatient;
+				var prenomPdf = Patient.table[i]._prenomPatient;
+				fs.appendFile('ListedesPatient.pdf', nomPdf + " " + prenomPdf + "\r\n", 'utf8');
+			}
+		}
+	});
+}
+
 function MailPatients()//MailExpediteur, MdpExpediteur
 {
+	convertJsonToPDF();
 	var smtpTransporter = nodemailer.createTransport({
   		service: "Gmail",
   		auth: {
@@ -130,7 +146,7 @@ function MailPatients()//MailExpediteur, MdpExpediteur
   			subject: 'Test de mon appli javascript',
   			attachments: [
 						{
-						  filePath: './test.txt'
+						  filePath: 'ListedesPatient.pdf'
 						},
 					]
 		};
