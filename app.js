@@ -30,6 +30,7 @@ app.get('/patient/:id', (req, res) => {
 
 app.post('/patient/mail', (req, res) => {
 	task.MailPatients();
+	res.redirect('/patients');
 });
 
 var cp = 0;
@@ -43,8 +44,7 @@ app.post('/patient', (req, res) => {
 		task.ajouterIfNot(nom, prenom);
 		cp++;
 	}else{
-		task.ajouterIfYes();
-		cp++;
+		task.ajouterIfYes(nom, prenom);
 	}
 	//rrvfdfdsdsfrsegrdsgress
  	res.redirect('/patients');

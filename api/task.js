@@ -1,5 +1,7 @@
 const fs = require('fs');
 var gutil = require('gulp-util');
+var nodemailer = require('nodemailer');
+var jsonObj = require('../test.json');
 
 var ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
@@ -44,14 +46,14 @@ deleteP = function(index){
 	});
 }
 
-ajouterIfYes = function(){
+ajouterIfYes = function(Nom, Prenom){
 	var id_y = generate();
 	fs.readFile('test.json', 'utf8', function readFileCallback(err, data){
 		if (err){
 			console.log(gutil.color.red(err));
 		} else {
 		Infirmier = JSON.parse(data); 
-		Infirmier.table.push({id: id_y, nom:"albert", prenom:"la grenouille"}); 
+		Infirmier.table.push({id: id_y, nom:Nom, prenom:Prenom}); 
 		var json = JSON.stringify(Infirmier); 
 		fs.writeFile('test.json', json, 'utf8'); 
 	}});
@@ -110,35 +112,53 @@ displayPatient = function(idPatient){
 
 function MailPatients()//MailExpediteur, MdpExpediteur
 {
-	var transporter = nodemailer.createTransport("SMTP", {
-  		service: 'Gmail',
-  		auth: 
-  		{
-    		user: 'dadalemaure@gmail.com', //a changer
-    		pass: '23011995' // a changer
+	var smtpTransporter = nodemailer.createTransport({
+  		service: "Gmail",
+  		auth: {
+    			user: 'dadalemaure@gmail.com', //a changer
+    			pass: '23011995' // a changer
   		}
 	});
 
-//objet trop grand dans une fonction, c’est pourquoi j’ai préféré passer par une variable intermédiaire.
+	//var existe = new ActiveXObject("Scripting.FileSystemObject").FileExists(dataPatientDisplay.json)
 
+//objet trop grand dans une fonction, c’est pourquoi j’ai préféré passer par une variable intermédiaire.
 	var mailOptions = 
-	{
-  		from: mail.name+' <'+ mail.sender +'>',
-  		to: 'damien.maure@ynov.com',
-  		subject: 'Test de mon appli javascript',
-  		//text: mail.message,
-  		//html: mail.message,
-  		attachments: [
+		{
+  			from: "dadalemaure@gmail.com",
+  			to: 'damien.maure@ynov.com',
+  			subject: 'Test de mon appli javascript',
+  			attachments: [
 						{
 						  filePath: './test.txt'
 						},
 					]
-	};
+		};
+
+	// if (existe)
+	// {
+	// 	var mailOptions = 
+	// 	{
+ //  			from: "dadalemaure@gmail.com",
+ //  			to: 'damien.maure@ynov.com',
+ //  			subject: 'Test de mon appli javascript',
+ //  			attachments: [
+	// 					{
+	// 					  filePath: './test.txt'
+	// 					},
+	// 				]
+	// 	};
+ //  	}
+ //  	else{
+ //  		console.log("Erreur pas de patients selectionné");
+ //  	}
 
 	smtpTransporter.sendMail(mailOptions, function(err, response){
 	  !!err ? console.error(err) : res.end();
 	  smtpTransporter.close();
 	});
+	console.log(gutil.colors.green("Mail envoyé"));
+}
 
 modifyPatient = function(id, dataToEdit) {
 
