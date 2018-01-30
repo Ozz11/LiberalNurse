@@ -2,6 +2,7 @@ const fs = require('fs');
 var gutil = require('gulp-util');
 var nodemailer = require('nodemailer');
 var jsonObj = require('../test.json');
+var PDFDocument = require('pdfkit');
 
 var ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
@@ -110,22 +111,25 @@ displayPatient = function(idPatient){
 	});
 }
 
-covertJsonToPDF = function(){
+convertJsonToPDF = function(){
 	fs.readFile('dataPatientDisplay.json', 'utf8', function readFileCallback(err, data){
 		if (err){
 			console.log(gutil.colors.red(err));
 		} else {
 			Patient = JSON.parse(data);
+			doc = new PDFDocument;
+			doc.pipe(fs.createWriteStream('ListedesPatient.pdf'));
 			for (var i = 0; i < Patient.table.length; i++) {
 				var nomPdf = Patient.table[i]._nomPatient;
 				var prenomPdf = Patient.table[i]._prenomPatient;
-				fs.appendFile('ListedesPatient.pdf', nomPdf + " " + prenomPdf + "\r\n", 'utf8');
+				doc.text("Nom : " + nomPdf + " Prénom : " + prenomPdf + "\r\n");
 			}
+			doc.end();
 		}
 	});
 }
 
-function MailPatients()//MailExpediteur, MdpExpediteur
+mailPatients = function()//MailExpediteur, MdpExpediteur
 {
 	convertJsonToPDF();
 	var smtpTransporter = nodemailer.createTransport({
@@ -136,9 +140,6 @@ function MailPatients()//MailExpediteur, MdpExpediteur
   		}
 	});
 
-	//var existe = new ActiveXObject("Scripting.FileSystemObject").FileExists(dataPatientDisplay.json)
-
-//objet trop grand dans une fonction, c’est pourquoi j’ai préféré passer par une variable intermédiaire.
 	var mailOptions = 
 		{
   			from: "dadalemaure@gmail.com",
@@ -146,28 +147,12 @@ function MailPatients()//MailExpediteur, MdpExpediteur
   			subject: 'Test de mon appli javascript',
   			attachments: [
 						{
-						  filePath: 'ListedesPatient.pdf'
+						  	filename: 'ListedesPatient.pdf',
+						  	path: './ListedesPatient.pdf',
+    						contentType: 'application/pdf'
 						},
 					]
 		};
-
-	// if (existe)
-	// {
-	// 	var mailOptions = 
-	// 	{
- //  			from: "dadalemaure@gmail.com",
- //  			to: 'damien.maure@ynov.com',
- //  			subject: 'Test de mon appli javascript',
- //  			attachments: [
-	// 					{
-	// 					  filePath: './test.txt'
-	// 					},
-	// 				]
-	// 	};
- //  	}
- //  	else{
- //  		console.log("Erreur pas de patients selectionné");
- //  	}
 
 	smtpTransporter.sendMail(mailOptions, function(err, response){
 	  !!err ? console.error(err) : res.end();
@@ -197,7 +182,7 @@ exports.addOnePatient = addOnePatient;
 exports.deleteP = deleteP;
 exports.loadScript = loadScript;
 exports.displayPatient = displayPatient;
-exports.MailPatients = MailPatients;
+exports.mailPatients = mailPatients;
 exports.tempDataExist = tempDataExist;
 exports.tempDataExist = tempDataExist;
 exports.modifyPatient = modifyPatient;

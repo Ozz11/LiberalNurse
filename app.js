@@ -28,8 +28,9 @@ app.get('/patient/:id', (req, res) => {
 	res.sendFile(path.join(`${__dirname}/dataPatientDisplay.json`));
 });
 
+// Route pour envoyer par email la sélèction des patients
 app.post('/patient/mail', (req, res) => {
-	task.MailPatients();
+	task.mailPatients();
 	res.redirect('/patients');
 });
 
