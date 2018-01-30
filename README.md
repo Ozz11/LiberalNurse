@@ -60,7 +60,7 @@ task.deleteP(req.params.id); // Le paramètre correspond à l'id qu'on passe dan
 -	localhost:1345/patient/**ID_du_patient_à_modifier**	
 
 ```js
-app.put('/patient/:id)
+app.put('/patient/:id')
 modifyPatient(id, obj);
 
 // id : On renseigne un id dans la requête.
