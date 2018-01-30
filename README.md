@@ -1,4 +1,3 @@
-
 # LiberalNurse
 
 ## Pour qui ?
@@ -51,8 +50,8 @@ Notre fonction permettra de prendre en paramètre l'id d'un patient, de match ce
 https://github.com/Ozz11/LiberalNurse/blob/master/api/task.js#L27
 
 ```js
-DELETE /patient/delete/:id, (req,res) => {
-	task.deleteP(req.params.id); // Le paramètre correspond à l'id qu'on passe dans la requête.
+DELETE /patient/delete/:id
+task.deleteP(req.params.id); // Le paramètre correspond à l'id qu'on passe dans la requête.
 ```
 
 
