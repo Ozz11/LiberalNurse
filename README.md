@@ -1,3 +1,4 @@
+
 # LiberalNurse
 
 ## Pour qui ?
@@ -22,56 +23,96 @@ Pour analyser un fichier JSON nous utilisons **body-parser**
 
 ## Create
 
-Dans la barre de requête, tapez la première route (localhost:1345/)
+- En **POST** 
+-  localhost:1345/patient
+La route, ci-dessus, fonctionne de la manière suivante :
+```js
+app.post('/patient')
+addOnePatient(obj) // On attend un fichier json en paramètre dans lequel sera renseigné le nom et le prénom d'un patient.
+```
 
-Cela va rediriger sur notre page principale (localhost:1345/patient).
-Une fois arrivé faire les appels suivants :
-
-En **POST** pour la **création**, faire :  localhost:1345/patient
-
-- Dans Postman, vous vous situez dans l’onglet « Authorization ».
-
-- Cliquez sur l’onglet « Body », en dessous cliquez sur l’option : « raw ».
-
-- Toujours sur la même barre de navigation vous trouvez une flèche grise vers le bas,
-  cliquez dessus et sélectionnez « JSON »
-  [ Image Body - raw - JSON](https://imgur.com/a/oBsBj)
-
- - Dans la fenêtre de code suivez la syntaxe suivante pour créer le patient de votre choix
-  [syntaxe DANS le Body](https://imgur.com/a/oBsBj). Une fois votre code écrit, cliquez sur **SEND**
+https://github.com/Ozz11/LiberalNurse/blob/master/api/task.js#L50
+ 
+ - Dans la fenêtre de code (Postman) suivez la syntaxe suivante pour créer le patient de votre choix  [syntaxe DANS le Body](https://imgur.com/a/oBsBj).
 - Après avoir SEND la requête, celle-ci créée un patient et vous l’affiche.
 
-
-```json
-{
-	"toto": "eee",
-}
-```
 > **Conseils :** Créez plusieurs patient pour avoir une meilleur expérience d'utilisation.
 
 ## Delete
 
 -	**Copiez l'ID** d'un patient que vous venez de générer. L'id se trouve dans la fenêtre du bas.
 [Where is my ID ?](https://imgur.com/a/oBsBj)
--	Passez maintenant en **DELETE** et écrivez l'URL suivante (localhost:1345/patient/delete/**ID_a_Coller**)
-- Faites un SEND et voyez, le patient est maintenant supprimé.
+-	**DELETE** et écrivez l'URL suivante :
+
+- (localhost:1345/patient/delete/**ID_a_Coller**)
+
+Notre fonction permettra de prendre en paramètre l'id d'un patient, de match cet ID grâce à un parse dans notre tableau de patients et de le supprimer.
+
+https://github.com/Ozz11/LiberalNurse/blob/master/api/task.js#L27
+
+```js
+DELETE /patient/delete/:id, (req,res) => {
+	task.deleteP(req.params.id); // Le paramètre correspond à l'id qu'on passe dans la requête.
+```
+
 
 ## Update
--	Passez maintenant en PUT et faites localhost:1345/patient/**ID_du_patient_à_modifier**	
--	Dans la fenêtre de code choisissez l'information que vous désirez modifier.
--	Cela fait, faites un SEND. Le patient aura vos modifications.
+-	Passez en **PUT** 
+-	localhost:1345/patient/**ID_du_patient_à_modifier**	
 
-> **RAPPEL** : Pour afficher la liste de patients, tapez la première route (localhost:1345/).
+```js
+app.put('/patient/:id)
+modifyPatient(id, obj);
 
-## Affichage d'un patient choisi
+// id : On renseigne un id dans la requête.
+// obj : Objet json qui détient les changements fait par l'utilisateur.
+```
+Exemple de obj :  [syntaxe DANS le Body](https://imgur.com/a/oBsBj).
 
--	Passez en GET et faites localhost:1345/patient/**ID_du_patient_choisi**	
+https://github.com/Ozz11/LiberalNurse/blob/master/api/task.js#L164
+
+
+## Affichage & Sélection d'un patient
+
+-	Passez en **GET**
+-	 localhost:1345/patient/**ID_du_patient_choisi**	
 Cette commande vous affiche le patient souhaité.
 
-## Sélection de plusieurs patients 
+```js
+app.get('/patient/:id')
+task.displayPatient(req.params.id); 
+
+//Ici l'id renseigné permet l'affichage
+```
+
+## Affichage de la liste des patients
+
+- Passez en **GET** 
+- localhost:1345/patients/
+
+Affiche le fichier test.json
+
 ## Transformation en PDF
+Automatique lors de l'envoie d'un email.
+
+- La fonction permet de lire le fichier json de la selection des patients,
+- créer le fichier pdf vierge, 
+- le remplir avec les données du json,
+- Enfin elle le stock à la racine du dossier de l'API.
+
+https://github.com/Ozz11/LiberalNurse/blob/master/api/task.js#L114
 ## Envoi d'un mail
--	 
--	
--	
-Appel type id paramètre dans url :id préciser id requête et réponse.
+- **POST**
+- localhost:1345/patient/mail
+```js
+post('/patient/mail')
+MailPatients();
+```
+- La fonction utilise le module nodemailer pour fonctionner.
+- Utilise la fonction convertJsonToPDF();
+- Elle utilise une adresse email et un mot de passe pour l'expediteur.
+- Permet, dans un second temps, de renseigner le destinataire et tout cela grâce au protocole SMTP.
+
+https://github.com/Ozz11/LiberalNurse/blob/master/api/task.js#L132
+
+> **Conseil : Rentrez votre adresse d’expédition et de destinataire pour faire votre test.**
