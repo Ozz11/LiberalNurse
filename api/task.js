@@ -1,8 +1,8 @@
 const fs = require('fs');
-var gutil = require('gulp-util');
+var gutil = require('gulp-util'); // Sert à colorer les logs sur la console
 var nodemailer = require('nodemailer');
 var jsonObj = require('../test.json');
-var PDFDocument = require('pdfkit');
+var PDFDocument = require('pdfkit'); // Sert à la création du fichier PDF
 
 var ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
@@ -12,7 +12,7 @@ var Infirmier = {
 	table: []
  };
 
- var Patient = {
+ var Patient = {  // Table temporaire pour la sélection des patients
  	table: []
  };
 
@@ -70,7 +70,7 @@ loadScript = function(filename){
 	document.getElementsByTagName("head")[0].appendChild(fileref);
 }
 
-tempDataExist = function(){
+tempDataExist = function(){  // Supprime les fichiers temporaire
 	fs.exists('dataPatientDisplay.json', function(exists) {
 		if(exists) {
     		console.log(gutil.colors.green('Le fichier \'dataPatientDisplay.json\' existe. Suppression en cours.'));
@@ -98,13 +98,13 @@ displayPatient = function(idPatient){
 			console.log(gutil.color.red(err));
 		} else {
 			Infirmier = JSON.parse(data); 		
-			for (var i = 0; i < Infirmier.table.length; i++) {				
-				 if (idPatient === Infirmier.table[i].id) {
+			for (var i = 0; i < Infirmier.table.length; i++) { // Boucle pour chercher le patient à l'id cherché		
+				 if (idPatient === Infirmier.table[i].id) { // Permet de remplir les variables déclarées au début de la fonction
 					nomPatient = Infirmier.table[i].nom;	
 					prenomPatient = Infirmier.table[i].prenom;
 				}				
 			}
-			Patient.table.push({_nomPatient:nomPatient, _prenomPatient:prenomPatient})
+			Patient.table.push({_nomPatient:nomPatient, _prenomPatient:prenomPatient}) // Rempli la table Patient
 			var json = JSON.stringify(Patient);
 			fs.writeFile('dataPatientDisplay.json', json, 'utf8');
 		}
@@ -118,13 +118,13 @@ convertJsonToPDF = function(){
 		} else {
 			Patient = JSON.parse(data);
 			doc = new PDFDocument;
-			doc.pipe(fs.createWriteStream('ListedesPatient.pdf'));
-			for (var i = 0; i < Patient.table.length; i++) {
+			doc.pipe(fs.createWriteStream('ListedesPatient.pdf')); // Création du fichier PDF vide
+			for (var i = 0; i < Patient.table.length; i++) { // Boucle pour écrire dans le fichier PDF créé
 				var nomPdf = Patient.table[i]._nomPatient;
 				var prenomPdf = Patient.table[i]._prenomPatient;
 				doc.text("Nom : " + nomPdf + " Prénom : " + prenomPdf + "\r\n");
 			}
-			doc.end();
+			doc.end(); // Sauvegarde du fichier PDF
 		}
 	});
 }

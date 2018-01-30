@@ -22,7 +22,7 @@ app.get('/patients', (req, res) => {
  	res.sendFile(path.join(`${__dirname}/test.json`));
 });
 
-// Route pour afficher un patient spécifique
+// Route pour sélectionner un patient spécifique et afficher les listes des patients sélectionnés
 app.get('/patient/:id', (req, res) => {
 	task.displayPatient(req.params.id);
 	res.sendFile(path.join(`${__dirname}/dataPatientDisplay.json`));
@@ -41,10 +41,10 @@ app.post('/patient', (req, res) => {
  	res.redirect('/patients');
 });
 
+// Route pour supprimer un patient
 app.delete('/patient/delete/:id', (req,res) => {
 	task.deleteP(req.params.id);
 	res.redirect('/patients');
-	
 });
 
 // Route pour modifier un patient
