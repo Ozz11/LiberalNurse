@@ -80,10 +80,18 @@ loadScript = function(filename){
 tempDataExist = function(){
 	fs.exists('dataPatientDisplay.json', function(exists) {
 		if(exists) {
-    		console.log(gutil.colors.green('Le fichier existe. Suppression en cours.'));
+    		console.log(gutil.colors.green('Le fichier \'dataPatientDisplay.json\' existe. Suppression en cours.'));
 			fs.unlink('dataPatientDisplay.json');
 		} else {
-    		console.log(gutil.colors.red('Le fichier n\'existe pas'));
+    		console.log(gutil.colors.red('Le fichier \'dataPatientDisplay.json\' n\'existe pas'));
+  		}
+	});
+	fs.exists('ListedesPatient.pdf', function(exists) {
+		if(exists) {
+    		console.log(gutil.colors.green('Le fichier \'ListedesPatient.pdf\' existe. Suppression en cours.'));
+			fs.unlink('ListedesPatient.pdf');
+		} else {
+    		console.log(gutil.colors.red('Le fichier \'ListedesPatient.pdf\' n\'existe pas'));
   		}
 	});
 }
