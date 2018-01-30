@@ -33,20 +33,10 @@ app.post('/patient/mail', (req, res) => {
 	res.redirect('/patients');
 });
 
-var cp = 0;
-
 // Route pour ajouter un patient
 app.post('/patient', (req, res) => {
-	var nom = req.body.name;
-	var prenom = req.body.lastname;
-	
-	if (cp == 0 ) {
-		task.ajouterIfNot(nom, prenom);
-		cp++;
-	}else{
-		task.ajouterIfYes(nom, prenom);
-	}
-	//rrvfdfdsdsfrsegrdsgress
+	var obj = req.body;
+	task.addOnePatient(obj);
  	res.redirect('/patients');
 });
 

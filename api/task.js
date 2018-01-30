@@ -46,28 +46,20 @@ deleteP = function(index){
 	});
 }
 
-ajouterIfYes = function(Nom, Prenom){
+addOnePatient = function(dataToAdd){
 	var id_y = generate();
 	fs.readFile('test.json', 'utf8', function readFileCallback(err, data){
 		if (err){
 			console.log(gutil.color.red(err));
 		} else {
-		Infirmier = JSON.parse(data); 
-		Infirmier.table.push({id: id_y, nom:Nom, prenom:Prenom}); 
-		var json = JSON.stringify(Infirmier); 
-		fs.writeFile('test.json', json, 'utf8'); 
-	}});
-
-	
-} 
-
-ajouterIfNot = function(Nom, Prenom){
-	var id_t = generate();
-	Infirmier.table.push({id: id_t, nom:Nom, prenom: Prenom});
-	var json = JSON.stringify(Infirmier);
-	
-	console.log(id_t);
-	fs.writeFileSync("test.json", json , "UTF-8");
+			const myObj = {id: id_y};
+			const newObj = Object.assign(myObj, dataToAdd);
+			Infirmier = JSON.parse(data); 
+			Infirmier.table.push(newObj); 
+			var json = JSON.stringify(Infirmier); 
+			fs.writeFile('test.json', json, 'utf8');
+			console.log("Patient " + id_y + " added");
+	}});	
 }
 
 loadScript = function(filename){
@@ -201,8 +193,7 @@ modifyPatient = function(id, dataToEdit) {
 	fs.writeFile('test.json', myJSONString, 'utf8');
 }
 
-exports.ajouterIfNot = ajouterIfNot;
-exports.ajouterIfYes = ajouterIfYes;
+exports.addOnePatient = addOnePatient;
 exports.deleteP = deleteP;
 exports.loadScript = loadScript;
 exports.displayPatient = displayPatient;
