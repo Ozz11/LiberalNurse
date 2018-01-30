@@ -101,6 +101,9 @@ Automatique lors de l'envoie d'un email.
 
 https://github.com/Ozz11/LiberalNurse/blob/master/api/task.js#L114
 ## Envoi d'un mail
+
+> **Conseil : Rentrez votre adresse d’expédition et de destinataire en dur pour faire votre test.**
+
 - **POST**
 - localhost:1345/patient/mail
 ```js
@@ -113,5 +116,3 @@ MailPatients();
 - Permet, dans un second temps, de renseigner le destinataire et tout cela grâce au protocole SMTP.
 
 https://github.com/Ozz11/LiberalNurse/blob/master/api/task.js#L132
-
-> **Conseil : Rentrez votre adresse d’expédition et de destinataire pour faire votre test.**
