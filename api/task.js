@@ -133,19 +133,19 @@ mailPatients = function()//MailExpediteur, MdpExpediteur
 {
 	convertJsonToPDF();
 	var smtpTransporter = nodemailer.createTransport({
-  		service: "Gmail",
+  		service: "Gmail", // Rentrer le service mail utilisé
   		auth: {
-    			user: 'dadalemaure@gmail.com', //a changer
-    			pass: '23011995' // a changer
+    			user: '', // Contact émetteur valide
+    			pass: '' // Mot de passe émetteur valide
   		}
 	});
 
 	var mailOptions = 
 		{
-  			from: "dadalemaure@gmail.com",
-  			to: 'damien.maure@ynov.com',
-  			subject: 'Test de mon appli javascript',
-  			attachments: [
+  			from: "", // Adresse d'émission
+  			to: '', // Adresse de réception
+  			subject: 'Envoie de la sélection des patients en PDF', // Sujet de l'email
+  			attachments: [ // Fichier join à l'email
 						{
 						  	filename: 'ListedesPatient.pdf',
 						  	path: './ListedesPatient.pdf',
